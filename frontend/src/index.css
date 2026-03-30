@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-base: #0a0a0f;
+  --bg-surface: #12121a;
+  --bg-elevated: #1a1a26;
+  --bg-hover: #22223a;
+  --border: #2a2a40;
+  --border-bright: #3a3a5c;
+  --accent: #7c6fcd;
+  --accent-bright: #9d8fe8;
+  --accent-glow: rgba(124, 111, 205, 0.2);
+  --accent-dim: rgba(124, 111, 205, 0.1);
+  --text-primary: #f0f0ff;
+  --text-secondary: #9090b8;
+  --text-muted: #5a5a80;
+  --success: #4ade80;
+  --error: #f87171;
+  --warning: #fbbf24;
+  --user-bubble: #1e1e35;
+  --ai-bubble: #131320;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Utility */
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%            { transform: scale(1);   opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+  50%       { box-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-dim); }
+}
+
+.animate-fade-in   { animation: fadeIn 0.3s ease forwards; }
+.animate-spin      { animation: spin 1s linear infinite; }
+.animate-glow      { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* Typing dots */
+.typing-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  animation: pulse-dot 1.4s ease-in-out infinite both;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+/* Markdown styles inside messages */
+.prose h1, .prose h2, .prose h3 {
+  color: var(--text-primary);
+  margin: 0.8em 0 0.4em;
+  font-weight: 600;
+}
+.prose p  { margin: 0.5em 0; line-height: 1.7; }
+.prose ul, .prose ol { padding-left: 1.4em; margin: 0.5em 0; }
+.prose li { margin: 0.25em 0; }
+.prose code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: rgba(124,111,205,0.15);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  color: var(--accent-bright);
+}
+.prose pre {
+  background: #0d0d1a !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.8em 0;
+}
+.prose pre code { background: none; border: none; padding: 0; color: inherit; }
+.prose a { color: var(--accent-bright); text-decoration: underline; }
+.prose strong { color: var(--text-primary); font-weight: 600; }
+.prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  color: var(--text-secondary);
+  margin: 0.5em 0;
+}
+.prose table { width: 100%; border-collapse: collapse; margin: 0.8em 0; }
+.prose th, .prose td {
+  border: 1px solid var(--border);
+  padding: 0.5em 0.8em;
+  text-align: left;
+}
+.prose th { background: var(--bg-elevated); color: var(--accent-bright); }

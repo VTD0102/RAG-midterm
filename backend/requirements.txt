@@ -1,0 +1,35 @@
+# Core LangChain
+langchain>=0.3.7,<0.4.0
+langchain-google-genai>=2.1.4
+langchain-pinecone>=0.2.5
+langchain-community>=0.3.7,<0.4.0
+langchain-core>=0.3.17,<0.4.0
+langgraph>=0.3.31
+
+# Pinecone
+pinecone-client==5.0.1
+
+# FastAPI + server
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+sse-starlette==2.2.1
+
+# Document loaders
+pypdf==5.4.0
+python-docx==1.1.2
+unstructured==0.17.2
+
+# Hybrid search (BM25)
+rank-bm25==0.2.2
+langchain-text-splitters==0.3.8
+
+# Memory & storage
+sqlalchemy==2.0.40
+aiosqlite==0.21.0
+
+# Utilities
+pydantic==2.11.3
+pydantic-settings==2.8.1
+python-dotenv==1.1.0
+httpx==0.28.1
