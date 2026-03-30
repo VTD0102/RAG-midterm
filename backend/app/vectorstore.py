@@ -5,7 +5,7 @@ Supports initialization and hybrid search (semantic + BM25).
 import os
 from functools import lru_cache
 
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone, ServerlessSpec
 
@@ -13,11 +13,12 @@ from app.config import settings
 
 
 @lru_cache(maxsize=1)
-def get_embeddings() -> GoogleGenerativeAIEmbeddings:
-    """Returns a cached Gemini embedding model."""
-    return GoogleGenerativeAIEmbeddings(
-        model=settings.gemini_embedding_model,
-        google_api_key=settings.google_api_key,
+def get_embeddings() -> OpenAIEmbeddings:
+    """Returns a cached OpenAI/OpenRouter embedding model."""
+    return OpenAIEmbeddings(
+        model=settings.embedding_model,
+        openai_api_key=settings.openrouter_api_key,
+        openai_api_base="https://openrouter.ai/api/v1",
     )
 
 

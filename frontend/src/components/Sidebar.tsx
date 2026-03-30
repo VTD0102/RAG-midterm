@@ -186,16 +186,16 @@ export default function Sidebar({ currentSessionId, onSelectSession, onNewSessio
                   border: "none",
                   cursor: "pointer",
                   color: "var(--text-muted)",
-                  padding: "2px",
-                  opacity: 0,
-                  transition: "opacity 0.15s",
+                  padding: "4px",
+                  opacity: 0.5,
+                  transition: "opacity 0.15s, color 0.15s",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.opacity = "1";
                   e.currentTarget.style.color = "var(--error)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "0";
+                  e.currentTarget.style.opacity = "0.5";
                   e.currentTarget.style.color = "var(--text-muted)";
                 }}
               >

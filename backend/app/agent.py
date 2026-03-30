@@ -8,7 +8,7 @@ LangChain RAG Agent with:
 import asyncio
 from typing import AsyncGenerator, List
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -35,10 +35,11 @@ Ngữ cảnh từ tài liệu:
 """
 
 # ── LLM ───────────────────────────────────────────────────────────────────
-def get_llm(streaming: bool = False) -> ChatGoogleGenerativeAI:
-    return ChatGoogleGenerativeAI(
-        model=settings.gemini_model,
-        google_api_key=settings.google_api_key,
+def get_llm(streaming: bool = False) -> ChatOpenAI:
+    return ChatOpenAI(
+        model=settings.llm_model,
+        api_key=settings.openrouter_api_key,
+        base_url="https://openrouter.ai/api/v1",
         streaming=streaming,
         temperature=0.3,
     )

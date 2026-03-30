@@ -3,17 +3,19 @@ from pydantic import Field
 
 
 class Settings(BaseSettings):
-    # Google Gemini
-    google_api_key: str = Field(..., env="GOOGLE_API_KEY")
-    gemini_model: str = Field("gemini-2.0-flash", env="GEMINI_MODEL")
-    gemini_embedding_model: str = Field(
-        "models/text-embedding-004", env="GEMINI_EMBEDDING_MODEL"
+    # OpenRouter API (Chat)
+    openrouter_api_key: str = Field(..., env="OPENROUTER_API_KEY")
+    llm_model: str = Field("google/gemini-2.0-flash-001", env="LLM_MODEL")
+
+    # Embeddings API (OpenRouter uses OpenAI client)
+    embedding_model: str = Field(
+        "openai/text-embedding-3-small", env="EMBEDDING_MODEL"
     )
-    embedding_dimension: int = Field(768, env="EMBEDDING_DIMENSION")
+    embedding_dimension: int = Field(1536, env="EMBEDDING_DIMENSION")
 
     # Pinecone
     pinecone_api_key: str = Field(..., env="PINECONE_API_KEY")
-    pinecone_index_name: str = Field("rag-chatbot", env="PINECONE_INDEX_NAME")
+    pinecone_index_name: str = Field("rag-chatbot-openrouter", env="PINECONE_INDEX_NAME")
     pinecone_cloud: str = Field("aws", env="PINECONE_CLOUD")
     pinecone_region: str = Field("us-east-1", env="PINECONE_REGION")
 

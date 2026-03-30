@@ -2,6 +2,7 @@
 langchain
 langchain-community
 langchain-google-genai
+langchain-openai
 langchain-pinecone
 langgraph
 google-generativeai

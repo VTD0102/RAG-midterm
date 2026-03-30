@@ -10,7 +10,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend/data:/app/data
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -26,7 +27,10 @@ services:
     env_file:
       - ./frontend/.env.local
     ports:
-      - "3000:3000"
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       backend:
         condition: service_healthy
