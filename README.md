@@ -2,11 +2,7 @@
 
 > Local RAG chatbot với OpenRouter, Pinecone, LangChain, React (Vite)
 
-![Giao diện RAG Chatbot](/home/taitu/.gemini/antigravity/brain/5489682c-f36a-4389-88be-4e0b7a87e41d/chatbot_ui_mockup_premium_1774906362511.png)
-
 ## 🏗️ Sơ đồ hoạt động (System Architecture)
-
-![Sơ đồ kiến trúc hệ thống RAG](/home/taitu/.gemini/antigravity/brain/5489682c-f36a-4389-88be-4e0b7a87e41d/rag_system_architecture_illustration_1774906345127.png)
 
 ```mermaid
 graph TD
