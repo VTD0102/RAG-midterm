@@ -1,6 +1,6 @@
 # 🤖 RAG Chatbot — Local Development
 
-> Local RAG chatbot với OpenRouter, Pinecone, LangChain, Next.js
+> Local RAG chatbot với OpenRouter, Pinecone, LangChain, React (Vite)
 
 ## Tech Stack
 
@@ -12,7 +12,7 @@
 | Agent | LangChain + Hybrid Search (Semantic + BM25) |
 | Memory | SQLite (per-session history) |
 | Backend | Python FastAPI + SSE streaming |
-| Frontend | Next.js 15 (App Router, TypeScript) |
+| Frontend | React 18 + Vite (TypeScript) |
 | DevOps | Docker Compose |
 
 ## Tính năng
@@ -118,7 +118,8 @@ RAG-midterm/
 │   └── requirements.txt
 ├── frontend/
 │   ├── src/
-│   │   ├── app/page.tsx     # Main page
+│   │   ├── main.tsx         # Entry point
+│   │   ├── App.tsx          # Main Layout
 │   │   ├── components/
 │   │   │   ├── ChatWindow.tsx
 │   │   │   ├── MessageBubble.tsx
