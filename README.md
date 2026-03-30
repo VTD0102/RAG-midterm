@@ -1,13 +1,13 @@
 # 🤖 RAG Chatbot — Local Development
 
-> Local RAG chatbot với Google Gemini, Pinecone, LangChain, Next.js
+> Local RAG chatbot với OpenRouter, Pinecone, LangChain, Next.js
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| LLM | Google Gemini 2.0 Flash |
-| Embedding | `text-embedding-004` (768d) |
+| LLM | Google Gemini 2.0 Flash (via OpenRouter) |
+| Embedding | `openai/text-embedding-3-small` (1536d) |
 | Vector DB | Pinecone Serverless |
 | Agent | LangChain + Hybrid Search (Semantic + BM25) |
 | Memory | SQLite (per-session history) |
@@ -31,7 +31,7 @@
 
 ### 1. Lấy API Keys
 
-- **Google Gemini**: [aistudio.google.com](https://aistudio.google.com) → Get API Key
+- **OpenRouter**: [openrouter.ai](https://openrouter.ai) → Get API Key
 - **Pinecone**: [pinecone.io](https://pinecone.io) → tạo account free tier → API Keys
 
 ### 2. Cài đặt Backend
@@ -44,7 +44,7 @@ source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 cp .env.example .env
-# Mở .env và điền GOOGLE_API_KEY, PINECONE_API_KEY
+# Mở .env và điền OPENROUTER_API_KEY, PINECONE_API_KEY
 ```
 
 ### 3. Chạy Backend
@@ -76,7 +76,7 @@ Mở http://localhost:3000
 # 1. Tạo file .env cho backend
 cp backend/.env.example backend/.env
 # Điền vào backend/.env:
-#   GOOGLE_API_KEY=...
+#   OPENROUTER_API_KEY=...
 #   PINECONE_API_KEY=...
 
 # 2. Tạo file .env.local cho frontend
@@ -109,7 +109,7 @@ RAG-midterm/
 │   │   ├── main.py          # FastAPI + endpoints
 │   │   ├── agent.py         # RAG agent + streaming + hybrid search
 │   │   ├── ingest.py        # Document ingestion pipeline
-│   │   ├── vectorstore.py   # Pinecone + Gemini embedding setup
+│   │   ├── vectorstore.py   # Pinecone + API Client embeddings setup
 │   │   ├── memory.py        # SQLite session memory
 │   │   ├── schemas.py       # Pydantic models
 │   │   └── config.py        # Settings
