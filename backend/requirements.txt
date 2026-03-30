@@ -1,13 +1,14 @@
-# Core LangChain
-langchain>=0.3.7,<0.4.0
-langchain-google-genai>=2.1.4
-langchain-pinecone>=0.2.5
-langchain-community>=0.3.7,<0.4.0
-langchain-core>=0.3.17,<0.4.0
-langgraph>=0.3.31
+# Core AI
+langchain
+langchain-community
+langchain-google-genai
+langchain-pinecone
+langgraph
+google-generativeai
+python-dotenv
 
 # Pinecone
-pinecone-client==5.0.1
+pinecone-client>=5.4.2
 
 # FastAPI + server
 fastapi==0.115.12
