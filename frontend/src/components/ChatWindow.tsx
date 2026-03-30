@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Send, Square } from "lucide-react";
 import MessageBubble, { Message } from "./MessageBubble";
-import { streamChatWithEvents, SourceDocument } from "@/lib/api";
+import { streamChatWithEvents, SourceDocument, getHistory, MessageItem } from "@/lib/api";
 
 interface ChatWindowProps {
   sessionId: string;
@@ -17,9 +17,22 @@ export default function ChatWindow({ sessionId }: ChatWindowProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef(false);
 
-  // Reset messages on session change
+  // Reset and fetch messages on session change
   useEffect(() => {
     setMessages([]);
+    setIsStreaming(true); // show generic loading state intuitively or disable input
+    getHistory(sessionId)
+      .then((history: MessageItem[]) => {
+        // Map backend history to frontend format
+        const formatted: Message[] = history.map((m) => ({
+          id: m.id,
+          role: m.role,
+          content: m.content,
+        }));
+        setMessages(formatted);
+      })
+      .catch((err) => console.error("Failed to load history:", err))
+      .finally(() => setIsStreaming(false));
   }, [sessionId]);
 
   // Auto-scroll to bottom

@@ -3,6 +3,7 @@ import { Session, fetchSessions, deleteSession } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { MessageSquare, Plus, Trash2, Bot, RefreshCw } from "lucide-react";
 import UploadPanel from "./UploadPanel";
+import FileManager from "./FileManager";
 
 interface SidebarProps {
   currentSessionId: string;
@@ -234,9 +235,14 @@ export default function Sidebar({ currentSessionId, onSelectSession, onNewSessio
           onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
           onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
         >
-          📂 {showUpload ? "Ẩn upload" : "Upload tài liệu"}
+          📂 {showUpload ? "Ẩn quản lý tài liệu" : "Quản lý / Upload tài liệu"}
         </button>
-        {showUpload && <UploadPanel />}
+        {showUpload && (
+          <>
+            <UploadPanel />
+            <FileManager />
+          </>
+        )}
       </div>
     </aside>
   );

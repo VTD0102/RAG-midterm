@@ -97,6 +97,30 @@ async def get_history(session_id: str, limit: int = 20) -> list[BaseMessage]:
     return messages
 
 
+async def get_raw_history(session_id: str, limit: int = 100) -> list[dict]:
+    """Retrieve raw messages for the frontend API."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute(
+            """
+            SELECT id, role, content, created_at FROM messages
+            WHERE session_id = ?
+            ORDER BY id DESC LIMIT ?
+            """,
+            (session_id, limit),
+        ) as cursor:
+            rows = await cursor.fetchall()
+
+    return [
+        {
+            "id": str(r[0]),
+            "role": "user" if r[1] == "human" else "assistant",
+            "content": r[2],
+            "created_at": r[3],
+        }
+        for r in reversed(rows)
+    ]
+
+
 async def list_sessions() -> list[dict]:
     """List all sessions with metadata."""
     async with aiosqlite.connect(DB_PATH) as db:

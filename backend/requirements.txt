@@ -9,7 +9,7 @@ google-generativeai
 python-dotenv
 
 # Pinecone
-pinecone-client>=5.4.2
+pinecone>=5.4.2
 
 # FastAPI + server
 fastapi==0.115.12

@@ -43,9 +43,37 @@ class SessionListResponse(BaseModel):
     sessions: list[SessionInfo]
 
 
+class MessageItem(BaseModel):
+    id: str
+    role: str
+    content: str
+    created_at: str
+
+
+class HistoryResponse(BaseModel):
+    session_id: str
+    messages: list[MessageItem]
+
+
 # ─── Ingest ──────────────────────────────────────────────────────────────────
 
 class IngestResponse(BaseModel):
     filename: str
     chunks_indexed: int
+    message: str
+
+
+# ─── File Management ─────────────────────────────────────────────────────────
+
+class FileItem(BaseModel):
+    filename: str
+    size_bytes: int
+    created_at: str
+
+
+class FileListResponse(BaseModel):
+    files: list[FileItem]
+
+
+class FileDeleteResponse(BaseModel):
     message: str

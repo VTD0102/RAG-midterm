@@ -56,3 +56,18 @@ def get_vectorstore() -> PineconeVectorStore:
         index=index,
         embedding=get_embeddings(),
     )
+
+
+def delete_file_from_index(filename: str) -> None:
+    """Deletes all vectors associated with a filename from Pinecone."""
+    # We use LangChain's PineconeVectorStore wrapper for safe deletion.
+    # It abstracts away the index complexities (namespaces etc.)
+    vectorstore = get_vectorstore()
+    try:
+        # LangChain PineconeVectorStore handles the filter param correctly
+        vectorstore.delete(filter={"source": filename})
+        print(f"[Pinecone] Deleted records for source: {filename}")
+    except Exception as e:
+        print(f"[Pinecone] Failed to delete records for {filename}: {e}")
+        # Raise the error so the API endpoint fails instead of silently passing
+        raise e
