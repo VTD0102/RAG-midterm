@@ -43,62 +43,52 @@ graph TD
     Embed --> Pinecone
 ```
 
-## 🗺️ Luồng xử lý (System Flow)
+## 💡 Cơ chế hoạt động (System Flow Details)
 
-### 1. Luồng nạp tài liệu (Ingestion)
+### 1. Quy trình nạp dữ liệu (Document Ingestion)
 ```text
 ┌──────────────────────────┐      ┌──────────────────────────┐
-│   File (.pdf, .txt...)   │ ───> │  Text Splitter (Chunks)  │
+│   Tài liệu (.pdf, .txt)  │ ───> │  Text Splitter (Chunks)  │
 └──────────────────────────┘      └────────────┬─────────────┘
                                                │
-                                               v
+             ┌─────────────────────────────────┘
+             v
 ┌──────────────────────────┐      ┌──────────────────────────┐
-│   Pinecone Vector DB     │ <─── │ OpenRouter (Embeddings)  │
+│ OpenRouter (Embeddings)  │ ───> │   Pinecone Vector DB     │
 └──────────────────────────┘      └──────────────────────────┘
 ```
+1. **Upload**: Tệp tin được tải lên và lưu trữ cục bộ tại `backend/data/`.
+2. **Chunking**: Sử dụng LangChain để chia nhỏ văn bản thành các đoạn (chunks) 1000 ký tự.
+3. **Embedding**: Chuyển đổi văn bản thành Vector toán học thông qua model `text-embedding-3-small`.
+4. **Indexing**: Lưu trữ Vector và metadata vào Pinecone để phục vụ tìm kiếm.
 
-### 2. Luồng trả lời câu hỏi (RAG Chat)
+### 2. Quy trình trả lời câu hỏi (RAG Retrieval)
 ```text
 ┌──────────────────────────┐      ┌──────────────────────────┐
-│    Người dùng hỏi        │ ───> │    Retrieval Service     │
+│    Người dùng đặt câu hỏi│ ───> │    Retrieval Service     │
 └──────────────────────────┘      └────────────┬─────────────┘
-                                               │
+                                               │ [Tìm kiếm Context]
              ┌─────────────────────────────────┴┐
-             │                                  │
              v                                  v
 ┌──────────────────────────┐      ┌──────────────────────────┐
-│   Pinecone (Tiểu ngữ)    │      │  SQLite (Lịch sử chat)   │
+│   Pinecone (Văn bản)     │      │   SQLite (Lịch sử chat)  │
 └────────────┬─────────────┘      └────────────┬─────────────┘
              │                                  │
              └────────────────┬─────────────────┘
-                              │
                               v
 ┌──────────────────────────┐      ┌──────────────────────────┐
-│  Prompt Builder (Prompt) │ ───> │ OpenRouter (Gemini LLM)  │
+│  Prompt Builder (Giáo)   │ ───> │ OpenRouter (Gemini LLM)  │
 └──────────────────────────┘      └────────────┬─────────────┘
-                                               │ (Streaming)
+                                               │ [Streaming Token]
                                                v
                                   ┌──────────────────────────┐
                                   │ UI (Câu trả lời + Nguồn) │
                                   └──────────────────────────┘
 ```
-
-## 💡 Cơ chế hoạt động (How it works)
-
-### 1. Quy trình nạp dữ liệu (Document Ingestion)
-1. **Upload**: Tệp tin (PDF, TXT, MD...) được tải lên và lưu vào thư mục `backend/data/`.
-2. **Chunking**: LangChain tiến hành chia nhỏ tài liệu thành từng đoạn văn bản (chunks) khoảng 1000 ký tự để tối ưu hóa việc tìm kiếm.
-3. **Embedding**: Từng đoạn văn bản được gửi tới OpenRouter để tạo ra **Vector** (tọa độ không gian) bằng model `text-embedding-3-small`.
-4. **Vector Storage**: Các vector được lưu vào **Pinecone** kèm theo thông tin `metadata` (tên file, trang, nội dung thô).
-
-### 2. Quy trình trả lời câu hỏi (RAG Retrieval)
-1. **Embedding Query**: Câu hỏi của bạn được chuyển đổi thành một vector toán học.
-2. **Semantic Search**: Hệ thống so sánh vector câu hỏi với hàng ngàn vector trong **Pinecone** để tìm ra 5 đoạn văn bản có nội dung liên quan nhất.
-3. **Context Construction**: 
-    - Lấy nội dung của 5 đoạn văn bản trên làm "ngữ cảnh".
-    - Truy vấn **SQLite** để lấy thêm lịch sử của các tin nhắn trước đó (Memory).
-4. **LLM Generation**: Toàn bộ (Ngữ cảnh + Lịch sử + Câu hỏi mới) được gửi tới **Gemini 2.0 Flash** qua OpenRouter.
-5. **Streaming**: AI phân tích và trả về câu trả lời dưới dạng **SSE (Server-Sent Events)**, giúp nội dung hiện ra tức thì trên giao diện.
+1. **Embedding Query**: Chuyển câu hỏi của người dùng thành Vector.
+2. **Retrieve**: Tìm 5 đoạn văn bản liên quan nhất từ Pinecone và lấy 5 tin nhắn gần nhất từ SQLite.
+3. **Augment**: Kết hợp dữ liệu trích xuất vào hệ thống câu lệnh (Prompt) cho AI.
+4. **Generate**: AI phân tích và trả về câu trả lời dưới dạng **SSE (Server-Sent Events)** thời gian thực.
 
 ## 🛠️ Công nghệ sử dụng (Tech Stack)
 
