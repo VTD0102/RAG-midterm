@@ -16,12 +16,15 @@ graph TD
     subgraph Backend ["Xử lý (FastAPI)"]
         API[API Endpoints]
         Agent[LangChain Agent]
-        Retriever[Hybrid Retriever]
-        Embed[OpenRouter Embedding]
+        
+        subgraph RAG ["Hệ thống RAG"]
+            Retriever[Hybrid Retriever]
+            Embed[OpenRouter Embedding]
+        end
     end
     
     subgraph Storage ["Lưu trữ (Database)"]
-        Pinecone[(Pinecone Vector DB)]
+        Pinecone[(Pinecone Vector DB - RAG Source)]
         SQLite[(SQLite Chat History)]
         Disk[(Local Disk /data)]
     end
