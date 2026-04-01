@@ -15,9 +15,9 @@ graph TD
     
     subgraph Backend ["Xử lý (FastAPI)"]
         API[API Endpoints]
-        Agent[LangChain Agent]
         
         subgraph RAG ["Hệ thống RAG"]
+            Agent[LangChain Agent]
             Retriever[Hybrid Retriever]
             Embed[OpenRouter Embedding]
         end
